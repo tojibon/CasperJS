@@ -27,11 +27,14 @@ casper.start("https://picjumbo.com/category/"+category+"/", function() {
 	curPageImgSrcList = this.evaluate(getCurPageImgSrcList);
 });
 
-casper.run(function() {
-    this.echo(curPageImgSrcList.length + ' links found:');
-    this.echo(' - ' + curPageImgSrcList.join('\n - ')).exit();
-	for (i = 0; i < curPageImgSrcList.length; i++) { 
+casper.then(function() {
+    for (i = 0; i < curPageImgSrcList.length; i++) { 
 		this.echo('Downloading ' + curPageImgSrcList[i].split(".net/")[1]);
 		this.download( curPageImgSrcList[i], category + '/' + curPageImgSrcList[i].split(".net/")[1] );
 	}	
+});
+
+casper.run(function() {
+    this.echo(curPageImgSrcList.length + ' links found:');
+    this.echo(' - ' + curPageImgSrcList.join('\n - ')).exit();
 });
